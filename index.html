@@ -38,17 +38,11 @@
             scroll-behavior: smooth;
         }
         
-        /* Custom Animations */
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
+        html {
+            scroll-padding-top: 80px; /* Offset for sticky header */
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Hero Image Overlay - Darker for text pop */
+        /* Hero Image Overlay */
         .hero-bg {
             background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
@@ -56,7 +50,7 @@
             background-attachment: fixed;
         }
 
-        /* Emergency Page Specifics */
+        /* Emergency Modal Pattern */
         .emergency-bg {
             background-color: #FEF2F2;
             background-image: repeating-linear-gradient(45deg, #fee2e2 25%, #ffffff 25%, #ffffff 50%, #fee2e2 50%, #fee2e2 75%, #ffffff 75%, #ffffff 100%);
@@ -89,7 +83,7 @@
             <p class="font-semibold text-orange-400 animate-pulse"><i class="fas fa-circle text-xs mr-2"></i> Technicians available now in Metro City</p>
             <div class="space-x-6">
                 <span class="text-gray-300">License #987654</span>
-                <a href="#" class="hover:text-brand-accent transition"><i class="fas fa-phone-alt mr-1"></i> <strong>(555) 123-4567</strong></a>
+                <a href="tel:5551234567" class="hover:text-brand-accent transition"><i class="fas fa-phone-alt mr-1"></i> <strong>(555) 123-4567</strong></a>
             </div>
         </div>
     </div>
@@ -99,7 +93,7 @@
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
-                <a href="#" onclick="showPage('home')" class="text-2xl font-extrabold text-brand-blue flex items-center tracking-tight">
+                <a href="#home" class="text-2xl font-extrabold text-brand-blue flex items-center tracking-tight">
                     <div class="bg-blue-600 text-white p-2 rounded mr-2">
                         <i class="fas fa-faucet"></i>
                     </div>
@@ -108,19 +102,23 @@
 
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center space-x-1">
-                    <button onclick="showPage('home')" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Home</button>
-                    <button onclick="showPage('services')" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Services</button>
-                    <button onclick="showPage('testimonials')" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Reviews</button>
+                    <a href="#home" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Home</a>
+                    <a href="#services-details" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Services</a>
+                    <a href="#reviews" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">Reviews</a>
+                    <a href="#about" class="px-4 py-2 font-medium text-gray-700 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition">About</a>
                     
                     <!-- Primary CTA -->
                     <div class="ml-4 flex items-center space-x-3">
-                        <a href="tel:5551234567" class="flex flex-col items-end leading-tight">
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wide">24/7 Emergency</span>
-                            <span class="text-xl font-bold text-brand-blue">(555) 123-4567</span>
+                        <a href="tel:5551234567" class="flex flex-col items-end leading-tight group">
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wide group-hover:text-red-500 transition">24/7 Emergency</span>
+                            <span class="text-xl font-bold text-brand-blue group-hover:text-red-600 transition">(555) 123-4567</span>
                         </a>
-                        <button onclick="showPage('contact')" class="bg-brand-accent hover:bg-brand-accentHover text-white px-6 py-2.5 rounded-full font-bold shadow-md transition transform hover:-translate-y-0.5">
-                            Get Quote
+                        <button onclick="toggleEmergencyModal()" class="bg-red-100 hover:bg-red-200 text-red-700 border border-red-200 px-4 py-2.5 rounded-full font-bold shadow-sm transition mr-2">
+                             <i class="fas fa-bolt mr-1"></i> Emergency
                         </button>
+                        <a href="#contact" class="bg-brand-accent hover:bg-brand-accentHover text-white px-6 py-2.5 rounded-full font-bold shadow-md transition transform hover:-translate-y-0.5">
+                            Get Quote
+                        </a>
                     </div>
                 </nav>
 
@@ -132,31 +130,32 @@
 
             <!-- Mobile Nav Dropdown -->
             <div id="mobile-menu" class="md:hidden flex flex-col space-y-2 mt-2 pb-4 border-t border-gray-100 shadow-inner bg-gray-50">
-                <button onclick="showPage('home')" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">Home</button>
-                <button onclick="showPage('services')" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">Services</button>
-                <button onclick="showPage('about')" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">About</button>
-                <button onclick="showPage('emergency')" class="block py-3 px-4 bg-red-100 text-red-700 font-bold text-left mt-2 mx-2 rounded"><i class="fas fa-bolt mr-2"></i> Emergency Help</button>
+                <a href="#home" onclick="closeMobileMenu()" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">Home</a>
+                <a href="#services-details" onclick="closeMobileMenu()" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">Services</a>
+                <a href="#reviews" onclick="closeMobileMenu()" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">Reviews</a>
+                <a href="#about" onclick="closeMobileMenu()" class="block py-3 px-4 hover:bg-white border-b border-gray-200 text-left font-semibold text-gray-700">About</a>
+                <button onclick="toggleEmergencyModal(); closeMobileMenu()" class="block py-3 px-4 bg-red-100 text-red-700 font-bold text-left mt-2 mx-2 rounded"><i class="fas fa-bolt mr-2"></i> Emergency Help</button>
             </div>
         </div>
     </header>
 
-    <!-- Floating Mobile Call Bar (High Conversion) -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex p-3 gap-3">
+    <!-- Floating Mobile Call Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex p-3 gap-3">
         <a href="tel:5551234567" class="flex-1 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded-lg flex items-center justify-center py-3 shadow-lg animate-pulse">
             <i class="fas fa-phone-alt mr-2"></i> Call Now
         </a>
-        <button onclick="showPage('contact')" class="flex-1 bg-brand-blue text-white font-bold rounded-lg flex items-center justify-center py-3">
+        <a href="#contact" class="flex-1 bg-brand-blue text-white font-bold rounded-lg flex items-center justify-center py-3">
             <i class="fas fa-envelope mr-2"></i> Quote
-        </button>
+        </a>
     </div>
 
     <!-- MAIN CONTENT AREA -->
     <main id="app" class="flex-grow pb-20 md:pb-0">
         
-        <!-- ================= HOME PAGE ================= -->
-        <div id="home" class="page-content fade-in">
+        <!-- ================= HOME SECTION ================= -->
+        <section id="home" class="relative">
             <!-- Hero with Embedded Form -->
-            <section class="hero-bg relative text-white py-12 md:py-24 lg:py-32">
+            <div class="hero-bg relative text-white py-12 md:py-24 lg:py-32">
                 <div class="container mx-auto px-4">
                     <div class="flex flex-col lg:flex-row items-center gap-12">
                         
@@ -180,7 +179,7 @@
                             </div>
                         </div>
 
-                        <!-- Hero Form (Lead Magnet) - Visible on Desktop/Tablet -->
+                        <!-- Hero Form (Lead Magnet) -->
                         <div class="w-full max-w-md lg:w-2/5 z-10">
                             <form class="glass-form p-6 md:p-8 rounded-xl shadow-2xl transform transition hover:scale-[1.01]" onsubmit="handleForm(event)">
                                 <h3 class="text-brand-blue text-2xl font-bold mb-2 text-center">Get a Fast Quote</h3>
@@ -213,10 +212,10 @@
                         <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-gray-50"></path>
                     </svg>
                 </div>
-            </section>
+            </div>
 
             <!-- Trust Strip -->
-            <section class="bg-gray-50 pb-8 pt-2">
+            <div class="bg-gray-50 pb-8 pt-2">
                 <div class="container mx-auto px-4">
                     <p class="text-center text-gray-400 text-xs font-bold uppercase tracking-widest mb-4">Trusted by homeowners in Metro City</p>
                     <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition duration-500">
@@ -226,10 +225,10 @@
                         <div class="flex items-center gap-2 font-bold text-gray-600"><i class="fas fa-hard-hat text-2xl"></i> Safety Certified</div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Quick Services Grid -->
-            <section class="py-16 bg-white">
+            <!-- Quick Services Grid (Navigation) -->
+            <div class="py-16 bg-white">
                 <div class="container mx-auto px-4">
                     <div class="text-center mb-12">
                         <h2 class="text-3xl md:text-4xl font-bold text-brand-blue mb-4">What We Fix</h2>
@@ -238,37 +237,37 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <!-- Service Card 1 -->
-                        <div class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="showPage('services')">
+                        <a href="#services-details" class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 block">
                             <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                                 <i class="fas fa-tools text-2xl"></i>
                             </div>
                             <h3 class="text-xl font-bold mb-2 text-gray-800">General Plumbing</h3>
                             <p class="text-gray-500 text-sm leading-relaxed mb-4">Leaking taps, toilet repairs, and noisy pipe maintenance.</p>
                             <span class="text-brand-accent font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">See Details <i class="fas fa-arrow-right ml-2 text-xs"></i></span>
-                        </div>
+                        </a>
 
                         <!-- Service Card 2 -->
-                        <div class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="showPage('services')">
+                        <a href="#services-details" class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 block">
                             <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                                 <i class="fas fa-water text-2xl"></i>
                             </div>
                             <h3 class="text-xl font-bold mb-2 text-gray-800">Blocked Drains</h3>
                             <p class="text-gray-500 text-sm leading-relaxed mb-4">High-pressure jetting and CCTV cameras to clear blocks fast.</p>
                             <span class="text-brand-accent font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">See Details <i class="fas fa-arrow-right ml-2 text-xs"></i></span>
-                        </div>
+                        </a>
 
                         <!-- Service Card 3 -->
-                        <div class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="showPage('services')">
+                        <a href="#services-details" class="group bg-white p-6 border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 block">
                             <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                                 <i class="fas fa-fire text-2xl"></i>
                             </div>
                             <h3 class="text-xl font-bold mb-2 text-gray-800">Hot Water</h3>
                             <p class="text-gray-500 text-sm leading-relaxed mb-4">Repairs & replacement for Gas, Electric and Solar systems.</p>
                             <span class="text-brand-accent font-bold text-sm flex items-center group-hover:translate-x-2 transition-transform">See Details <i class="fas fa-arrow-right ml-2 text-xs"></i></span>
-                        </div>
+                        </a>
 
                         <!-- Service Card 4 -->
-                        <div class="group bg-red-50 p-6 border border-red-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-red-300 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="showPage('emergency')">
+                        <div onclick="toggleEmergencyModal()" class="cursor-pointer group bg-red-50 p-6 border border-red-100 rounded-2xl shadow-lg hover:shadow-2xl hover:border-red-300 transition-all duration-300 transform hover:-translate-y-2">
                             <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center text-red-600 mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
                                 <i class="fas fa-bolt text-2xl"></i>
                             </div>
@@ -278,10 +277,10 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Testimonial Highlight -->
-            <section class="py-20 bg-blue-900 text-white relative overflow-hidden">
+            <!-- Mini Testimonial Highlight -->
+            <div class="py-20 bg-blue-900 text-white relative overflow-hidden">
                 <!-- Background decorative blob -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
                 
@@ -303,25 +302,22 @@
                         </div>
                     </div>
                     
-                    <button onclick="showPage('testimonials')" class="mt-12 border border-blue-400 text-blue-100 hover:bg-white hover:text-blue-900 px-8 py-3 rounded-full font-bold transition">Read More Reviews</button>
+                    <a href="#reviews" class="inline-block mt-12 border border-blue-400 text-blue-100 hover:bg-white hover:text-blue-900 px-8 py-3 rounded-full font-bold transition">Read More Reviews</a>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
-        <!-- ================= SERVICES PAGE ================= -->
-        <div id="services" class="page-content hidden fade-in">
-            <section class="bg-brand-blue text-white py-16">
-                <div class="container mx-auto px-4 text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-                    <p class="text-xl text-blue-200">Residential & Small Commercial Solutions</p>
+        <!-- ================= DETAILED SERVICES SECTION ================= -->
+        <section id="services-details" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-blue">Detailed Services</h2>
+                    <p class="text-gray-500 mt-4">Residential & Small Commercial Solutions</p>
                 </div>
-            </section>
 
-            <section class="py-12 bg-white">
-                <div class="container mx-auto px-4 space-y-20">
-                    
+                <div class="space-y-20">
                     <!-- Service Group 1 -->
-                    <div class="flex flex-col md:flex-row gap-10 items-center">
+                    <div class="flex flex-col md:flex-row gap-10 items-center bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-gray-100">
                         <div class="w-full md:w-1/2 relative group">
                             <div class="absolute inset-0 bg-brand-accent rounded-lg transform translate-x-3 translate-y-3 group-hover:translate-x-2 group-hover:translate-y-2 transition"></div>
                             <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Plumbing tools" class="rounded-lg shadow-lg relative z-10 w-full h-72 object-cover">
@@ -343,7 +339,7 @@
                     </div>
 
                     <!-- Service Group 2 -->
-                    <div class="flex flex-col md:flex-row-reverse gap-10 items-center">
+                    <div class="flex flex-col md:flex-row-reverse gap-10 items-center bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-gray-100">
                         <div class="w-full md:w-1/2 relative group">
                             <div class="absolute inset-0 bg-brand-accent rounded-lg transform -translate-x-3 translate-y-3 group-hover:-translate-x-2 group-hover:translate-y-2 transition"></div>
                             <img src="https://images.unsplash.com/photo-1594498653385-d5175c954b15?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Drain cleaning" class="rounded-lg shadow-lg relative z-10 w-full h-72 object-cover">
@@ -365,7 +361,7 @@
                     </div>
 
                     <!-- Service Group 3 -->
-                    <div class="flex flex-col md:flex-row gap-10 items-center">
+                    <div class="flex flex-col md:flex-row gap-10 items-center bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-gray-100">
                         <div class="w-full md:w-1/2 relative group">
                             <div class="absolute inset-0 bg-brand-accent rounded-lg transform translate-x-3 translate-y-3 group-hover:translate-x-2 group-hover:translate-y-2 transition"></div>
                             <img src="https://images.unsplash.com/photo-1542013936693-884638332954?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Water heater" class="rounded-lg shadow-lg relative z-10 w-full h-72 object-cover">
@@ -385,254 +381,211 @@
                             <button onclick="prefillContact('Hot Water')" class="bg-brand-blue hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-bold transition shadow-lg">Fix Hot Water</button>
                         </div>
                     </div>
-
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
-        <!-- ================= ABOUT PAGE ================= -->
-        <div id="about" class="page-content hidden fade-in">
-            <section class="bg-gray-100 py-16">
-                <div class="container mx-auto px-4 max-w-4xl">
-                    <h1 class="text-4xl font-bold text-blue-900 mb-8 text-center">About LocalPro</h1>
+        <!-- ================= REVIEWS SECTION ================= -->
+        <section id="reviews" class="py-20 bg-white border-t border-gray-100">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <h2 class="text-4xl font-bold text-center mb-4 text-brand-blue">What Our Customers Say</h2>
+                <div class="flex justify-center items-center gap-2 mb-12">
+                     <span class="text-2xl font-bold text-gray-800">4.9</span>
+                     <div class="text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                     <span class="text-gray-500">(150+ Google Reviews)</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Review 1 -->
+                    <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
+                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 leading-relaxed">"The best trade experience I've had. Mike arrived on time, wore shoe covers, and fixed the issue in 20 minutes. The price was exactly what was quoted."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">J</div>
+                            <div>
+                                <div class="font-bold text-gray-900">James P.</div>
+                                <div class="text-xs text-gray-500">Downtown</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
+                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 leading-relaxed">"Had a complete hot water failure. They squeezed me in same-day. Very grateful for the prompt service."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">E</div>
+                            <div>
+                                <div class="font-bold text-gray-900">Elena R.</div>
+                                <div class="text-xs text-gray-500">West Hills</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
+                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
+                        <div class="flex text-yellow-400 mb-4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-6 leading-relaxed">"Honest advice. Another plumber told me I needed a whole new system, but LocalPro fixed the specific part for a fraction of the cost."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">M</div>
+                            <div>
+                                <div class="font-bold text-gray-900">Mark T.</div>
+                                <div class="text-xs text-gray-500">Bayside</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-flex items-center border border-gray-300 rounded-lg px-8 py-4 text-gray-600 hover:bg-white hover:border-gray-400 hover:shadow transition bg-gray-50">
+                        <i class="fab fa-google mr-3 text-red-500 text-xl"></i> 
+                        <span class="font-semibold">See all 150+ reviews on Google</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT SECTION ================= -->
+        <section id="about" class="bg-blue-900 py-20 text-white">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <h2 class="text-4xl font-bold mb-10 text-center">About LocalPro</h2>
+                
+                <div class="bg-blue-800 p-10 rounded-2xl shadow-xl mb-10 border-l-4 border-brand-accent">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="bg-blue-900 p-3 rounded-full border border-blue-700"><i class="fas fa-user-friends text-brand-accent text-2xl"></i></div>
+                        <h3 class="text-2xl font-bold">Our Story</h3>
+                    </div>
+                    <p class="text-blue-100 mb-4 leading-relaxed text-lg">
+                        Founded in 2008, LocalPro Plumbing started as a single man in a van. Today, we are a small but dedicated team of licensed professionals serving the Metro City area. We built our business on a simple premise: <strong>turn up when we say we will, and do the job right the first time.</strong>
+                    </p>
+                    <p class="text-blue-100 leading-relaxed text-lg">
+                        We aren't a big franchise with hidden fees. We are your neighbors, and we treat your home with the respect it deserves.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-800 p-8 rounded-2xl shadow-sm border border-blue-700">
+                        <h3 class="font-bold text-xl mb-4 text-white">Credentials</h3>
+                        <ul class="space-y-4 text-blue-200">
+                            <li class="flex items-center"><i class="fas fa-id-card text-brand-accent w-8"></i> Master Plumber License #12345</li>
+                            <li class="flex items-center"><i class="fas fa-shield-alt text-brand-accent w-8"></i> Fully Insured ($10M Liability)</li>
+                            <li class="flex items-center"><i class="fas fa-certificate text-brand-accent w-8"></i> Gas Fitting Certification</li>
+                            <li class="flex items-center"><i class="fas fa-hard-hat text-brand-accent w-8"></i> OH&S Compliant</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-800 p-8 rounded-2xl shadow-sm border border-blue-700">
+                        <h3 class="font-bold text-xl mb-4 text-white">Service Area</h3>
+                        <p class="text-blue-200 mb-4">We proudly serve Metro City and surrounding suburbs:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-700 text-white font-medium px-3 py-1 rounded-full text-sm">North Shore</span>
+                            <span class="bg-blue-700 text-white font-medium px-3 py-1 rounded-full text-sm">Downtown</span>
+                            <span class="bg-blue-700 text-white font-medium px-3 py-1 rounded-full text-sm">West Hills</span>
+                            <span class="bg-blue-700 text-white font-medium px-3 py-1 rounded-full text-sm">Bayside</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4 text-blue-900">Contact Us</h2>
+                <p class="text-center text-gray-500 mb-10">We reply to all web enquiries within 2 hours.</p>
+                
+                <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
                     
-                    <div class="bg-white p-10 rounded-2xl shadow-xl mb-10 border-t-4 border-brand-accent">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="bg-blue-100 p-3 rounded-full"><i class="fas fa-user-friends text-brand-blue text-2xl"></i></div>
-                            <h2 class="text-2xl font-bold">Our Story</h2>
-                        </div>
-                        <p class="text-gray-600 mb-4 leading-relaxed text-lg">
-                            Founded in 2008, LocalPro Plumbing started as a single man in a van. Today, we are a small but dedicated team of licensed professionals serving the Metro City area. We built our business on a simple premise: <strong>turn up when we say we will, and do the job right the first time.</strong>
-                        </p>
-                        <p class="text-gray-600 leading-relaxed text-lg">
-                            We aren't a big franchise with hidden fees. We are your neighbors, and we treat your home with the respect it deserves.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 class="font-bold text-xl mb-4 text-brand-blue">Credentials</h3>
-                            <ul class="space-y-4 text-gray-600">
-                                <li class="flex items-center"><i class="fas fa-id-card text-brand-accent w-8"></i> Master Plumber License #12345</li>
-                                <li class="flex items-center"><i class="fas fa-shield-alt text-brand-accent w-8"></i> Fully Insured ($10M Liability)</li>
-                                <li class="flex items-center"><i class="fas fa-certificate text-brand-accent w-8"></i> Gas Fitting Certification</li>
-                                <li class="flex items-center"><i class="fas fa-hard-hat text-brand-accent w-8"></i> OH&S Compliant</li>
-                            </ul>
-                        </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 class="font-bold text-xl mb-4 text-brand-blue">Service Area</h3>
-                            <p class="text-gray-600 mb-4">We proudly serve Metro City and surrounding suburbs:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-gray-100 text-gray-700 font-medium px-3 py-1 rounded-full text-sm">North Shore</span>
-                                <span class="bg-gray-100 text-gray-700 font-medium px-3 py-1 rounded-full text-sm">Downtown</span>
-                                <span class="bg-gray-100 text-gray-700 font-medium px-3 py-1 rounded-full text-sm">West Hills</span>
-                                <span class="bg-gray-100 text-gray-700 font-medium px-3 py-1 rounded-full text-sm">Bayside</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ================= TESTIMONIALS PAGE ================= -->
-        <div id="testimonials" class="page-content hidden fade-in">
-            <section class="py-16 bg-white">
-                <div class="container mx-auto px-4 max-w-6xl">
-                    <h1 class="text-4xl font-bold text-center mb-4 text-brand-blue">What Our Customers Say</h1>
-                    <div class="flex justify-center items-center gap-2 mb-12">
-                         <span class="text-2xl font-bold text-gray-800">4.9</span>
-                         <div class="text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                         <span class="text-gray-500">(150+ Google Reviews)</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Review 1 -->
-                        <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
-                            <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
-                            <div class="flex text-yellow-400 mb-4">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-gray-700 italic mb-6 leading-relaxed">"The best trade experience I've had. Mike arrived on time, wore shoe covers, and fixed the issue in 20 minutes. The price was exactly what was quoted."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">J</div>
-                                <div>
-                                    <div class="font-bold text-gray-900">James P.</div>
-                                    <div class="text-xs text-gray-500">Downtown</div>
+                    <!-- Contact Details -->
+                    <div class="w-full lg:w-1/3 space-y-6">
+                        <div class="bg-brand-blue text-white p-8 rounded-2xl shadow-lg relative overflow-hidden">
+                            <div class="relative z-10">
+                                <h3 class="text-2xl font-bold mb-6">Get in touch</h3>
+                                <div class="space-y-6">
+                                    <div class="flex items-start">
+                                        <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-phone text-brand-accent"></i></div>
+                                        <div>
+                                            <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Phone</p>
+                                            <a href="tel:5551234567" class="text-2xl font-bold text-white hover:text-brand-accent transition">(555) 123-4567</a>
+                                            <p class="text-sm text-green-400 mt-1">● 24/7 Live Answer</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-envelope text-brand-accent"></i></div>
+                                        <div>
+                                            <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Email</p>
+                                            <a href="mailto:help@localpro.com" class="text-lg text-white hover:text-brand-accent transition">help@localpro.com</a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-clock text-brand-accent"></i></div>
+                                        <div>
+                                            <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Business Hours</p>
+                                            <p class="text-white">Mon-Fri: 7am - 5pm</p>
+                                            <p class="text-brand-accent font-bold mt-1">Sat-Sun: Emergency Service</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- Decor -->
+                            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full"></div>
                         </div>
-
-                        <!-- Review 2 -->
-                        <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
-                            <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
-                            <div class="flex text-yellow-400 mb-4">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-gray-700 italic mb-6 leading-relaxed">"Had a complete hot water failure. They squeezed me in same-day. Very grateful for the prompt service."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">E</div>
-                                <div>
-                                    <div class="font-bold text-gray-900">Elena R.</div>
-                                    <div class="text-xs text-gray-500">West Hills</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Review 3 -->
-                        <div class="bg-gray-50 p-8 rounded-2xl relative shadow-sm hover:shadow-md transition">
-                            <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 right-4"></i>
-                            <div class="flex text-yellow-400 mb-4">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-gray-700 italic mb-6 leading-relaxed">"Honest advice. Another plumber told me I needed a whole new system, but LocalPro fixed the specific part for a fraction of the cost."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">M</div>
-                                <div>
-                                    <div class="font-bold text-gray-900">Mark T.</div>
-                                    <div class="text-xs text-gray-500">Bayside</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-12">
-                        <a href="#" class="inline-flex items-center border border-gray-300 rounded-lg px-8 py-4 text-gray-600 hover:bg-white hover:border-gray-400 hover:shadow transition bg-gray-50">
-                            <i class="fab fa-google mr-3 text-red-500 text-xl"></i> 
-                            <span class="font-semibold">See all 150+ reviews on Google</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- ================= CONTACT PAGE ================= -->
-        <div id="contact" class="page-content hidden fade-in">
-            <section class="py-12 bg-white">
-                <div class="container mx-auto px-4">
-                    <h1 class="text-4xl font-bold text-center mb-4 text-blue-900">Contact Us</h1>
-                    <p class="text-center text-gray-500 mb-10">We reply to all web enquiries within 2 hours.</p>
-                    
-                    <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
                         
-                        <!-- Contact Details -->
-                        <div class="w-full lg:w-1/3 space-y-6">
-                            <div class="bg-brand-blue text-white p-8 rounded-2xl shadow-lg relative overflow-hidden">
-                                <div class="relative z-10">
-                                    <h3 class="text-2xl font-bold mb-6">Get in touch</h3>
-                                    <div class="space-y-6">
-                                        <div class="flex items-start">
-                                            <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-phone text-brand-accent"></i></div>
-                                            <div>
-                                                <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Phone</p>
-                                                <a href="tel:5551234567" class="text-2xl font-bold text-white hover:text-brand-accent transition">(555) 123-4567</a>
-                                                <p class="text-sm text-green-400 mt-1">● 24/7 Live Answer</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-start">
-                                            <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-envelope text-brand-accent"></i></div>
-                                            <div>
-                                                <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Email</p>
-                                                <a href="mailto:help@localpro.com" class="text-lg text-white hover:text-brand-accent transition">help@localpro.com</a>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-start">
-                                            <div class="bg-white/10 p-3 rounded-lg mr-4"><i class="fas fa-clock text-brand-accent"></i></div>
-                                            <div>
-                                                <p class="font-bold text-sm text-gray-300 uppercase tracking-wide">Business Hours</p>
-                                                <p class="text-white">Mon-Fri: 7am - 5pm</p>
-                                                <p class="text-brand-accent font-bold mt-1">Sat-Sun: Emergency Service</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Decor -->
-                                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full"></div>
-                            </div>
-                            
-                            <!-- Simple Map Placeholder -->
-                            <div class="bg-gray-100 h-64 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden border border-gray-200">
-                                <i class="fas fa-map-marked-alt text-5xl text-gray-300 mb-3"></i>
-                                <span class="font-bold text-gray-500">Servicing Metro City & Suburbs</span>
-                            </div>
-                        </div>
-
-                        <!-- Contact Form -->
-                        <div class="w-full lg:w-2/3">
-                            <form id="quoteFormMain" class="bg-white border border-gray-100 p-8 rounded-2xl shadow-xl" onsubmit="handleForm(event)">
-                                <h3 class="text-2xl font-bold mb-6 text-gray-800">Send us a message</h3>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                    <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                                        <input type="text" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="John Doe">
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
-                                        <input type="tel" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="(555) ...">
-                                    </div>
-                                </div>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                    <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                                        <input type="email" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="john@example.com">
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Suburb</label>
-                                        <input type="text" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="e.g. North Shore">
-                                    </div>
-                                </div>
-
-                                <div class="mb-8">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">How can we help?</label>
-                                    <textarea id="messageInput" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg h-32 focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="Describe your plumbing issue..."></textarea>
-                                </div>
-
-                                <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xl py-4 rounded-lg shadow-lg hover:shadow-xl transition transform active:scale-95">
-                                    Send Enquiry
-                                </button>
-                            </form>
+                        <!-- Simple Map Placeholder -->
+                        <div class="bg-gray-100 h-64 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden border border-gray-200">
+                            <i class="fas fa-map-marked-alt text-5xl text-gray-300 mb-3"></i>
+                            <span class="font-bold text-gray-500">Servicing Metro City & Suburbs</span>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
 
-        <!-- ================= EMERGENCY PAGE ================= -->
-        <div id="emergency" class="page-content hidden fade-in">
-            <section class="emergency-bg min-h-screen py-12 md:py-20 flex items-center justify-center">
-                <div class="container mx-auto px-4 max-w-3xl text-center">
-                    
-                    <div class="bg-white p-8 md:p-14 rounded-3xl shadow-2xl border-t-8 border-red-600 relative overflow-hidden">
-                        <!-- Pulsing circle bg -->
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-100 rounded-full opacity-20 animate-pulse"></div>
-                        
-                        <div class="relative z-10">
-                            <i class="fas fa-exclamation-triangle text-7xl text-red-600 mb-6 animate-bounce"></i>
-                            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight">Plumbing Emergency?</h1>
-                            <p class="text-xl md:text-2xl text-gray-600 mb-10 font-light">Don't panic. We are available 24/7.</p>
+                    <!-- Contact Form -->
+                    <div class="w-full lg:w-2/3">
+                        <form id="quoteFormMain" class="bg-white border border-gray-100 p-8 rounded-2xl shadow-xl" onsubmit="handleForm(event)">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800">Send us a message</h3>
                             
-                            <a href="tel:5551234567" class="block w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-3xl md:text-4xl py-8 rounded-xl shadow-xl mb-6 transition transform hover:scale-105 hover:shadow-2xl">
-                                <i class="fas fa-phone-alt mr-4"></i> (555) 123-4567
-                            </a>
-                            <div class="flex items-center justify-center text-green-600 font-bold mb-10 gap-2">
-                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                Live operator answering now
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                                    <input type="text" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
+                                    <input type="tel" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="(555) ...">
+                                </div>
                             </div>
                             
-                            <div class="bg-red-50 border border-red-100 rounded-xl p-8 text-left">
-                                <h3 class="font-bold text-red-900 text-xl mb-4 flex items-center"><i class="fas fa-info-circle mr-2"></i> Immediate Steps:</h3>
-                                <ol class="list-decimal list-inside text-red-800 space-y-3 text-lg font-medium">
-                                    <li>Turn off your water mains (usually at front boundary).</li>
-                                    <li>If water is near electrical outlets, turn off power.</li>
-                                    <li>Call us immediately. Do not attempt DIY repairs on gas.</li>
-                                </ol>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                                    <input type="email" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="john@example.com">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Suburb</label>
+                                    <input type="text" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="e.g. North Shore">
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="mb-8">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">How can we help?</label>
+                                <textarea id="messageInput" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg h-32 focus:outline-none focus:border-brand-accent focus:bg-white transition" placeholder="Describe your plumbing issue..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xl py-4 rounded-lg shadow-lg hover:shadow-xl transition transform active:scale-95">
+                                Send Enquiry
+                            </button>
+                        </form>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
     </main>
 
@@ -653,10 +606,10 @@
                 <div>
                     <h4 class="text-white text-lg font-bold mb-6">Quick Links</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><button onclick="showPage('home')" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Home</button></li>
-                        <li><button onclick="showPage('services')" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Services</button></li>
-                        <li><button onclick="showPage('about')" class="hover:text-white hover:translate-x-1 transition-transform inline-block">About Us</button></li>
-                        <li><button onclick="showPage('contact')" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Request Quote</button></li>
+                        <li><a href="#home" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Home</a></li>
+                        <li><a href="#services-details" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Services</a></li>
+                        <li><a href="#about" class="hover:text-white hover:translate-x-1 transition-transform inline-block">About Us</a></li>
+                        <li><a href="#contact" class="hover:text-white hover:translate-x-1 transition-transform inline-block">Request Quote</a></li>
                     </ul>
                 </div>
                 <div>
@@ -677,6 +630,31 @@
             </div>
         </div>
     </footer>
+
+    <!-- EMERGENCY MODAL (Hidden by default) -->
+    <div id="emergencyModal" class="fixed inset-0 bg-red-900/90 backdrop-blur-sm flex items-center justify-center z-[70] hidden transition-opacity">
+        <div class="emergency-bg p-8 md:p-12 rounded-3xl max-w-2xl mx-4 w-full text-center shadow-2xl relative border-4 border-red-500 overflow-y-auto max-h-[90vh]">
+            <button onclick="toggleEmergencyModal()" class="absolute top-4 right-4 bg-white rounded-full p-2 text-gray-600 hover:text-red-600 shadow-md transition transform hover:scale-110"><i class="fas fa-times text-xl"></i></button>
+            
+            <i class="fas fa-exclamation-triangle text-6xl text-red-600 mb-6 animate-pulse"></i>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Plumbing Emergency?</h2>
+            <p class="text-xl text-gray-700 mb-8 font-medium">Don't panic. Our emergency team is available 24/7.</p>
+            
+            <a href="tel:5551234567" class="block w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-3xl md:text-4xl py-6 rounded-xl shadow-xl mb-6 transition transform hover:scale-105 hover:shadow-2xl">
+                <i class="fas fa-phone-alt mr-4"></i> (555) 123-4567
+            </a>
+            
+            <div class="bg-white border border-red-200 rounded-xl p-6 text-left shadow-inner">
+                <h3 class="font-bold text-red-800 text-lg mb-4 flex items-center border-b border-red-100 pb-2"><i class="fas fa-life-ring mr-2"></i> Safety First:</h3>
+                <ol class="list-decimal list-inside text-gray-800 space-y-3 font-medium">
+                    <li>Turn off your water mains (usually at front boundary).</li>
+                    <li>If water is near electrical outlets, turn off power at the switchboard.</li>
+                    <li>Call us immediately. Do not attempt DIY repairs on gas.</li>
+                </ol>
+            </div>
+            <button onclick="toggleEmergencyModal()" class="mt-8 text-gray-500 hover:text-gray-800 underline text-sm">Close and return to site</button>
+        </div>
+    </div>
 
     <!-- Form Success Modal (Hidden by default) -->
     <div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60] hidden transition-opacity">
@@ -710,34 +688,29 @@
             }
         });
 
-        // 2. Navigation / Page Switching Logic
-        function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.add('hidden');
-            });
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            menuBtn.querySelector('i').classList.remove('fa-times');
+            menuBtn.querySelector('i').classList.add('fa-bars');
+        }
 
-            // Show selected page
-            const selectedPage = document.getElementById(pageId);
-            if (selectedPage) {
-                selectedPage.classList.remove('hidden');
+        // 2. Emergency Modal Logic
+        function toggleEmergencyModal() {
+            const modal = document.getElementById('emergencyModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling bg
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
             }
-
-            // Close mobile menu if open
-            if(mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-                menuBtn.querySelector('i').classList.remove('fa-times');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-            }
-
-            // Scroll to top
-            window.scrollTo(0, 0);
         }
 
         // 3. Prefill Contact Form Logic
         function prefillContact(subject) {
-            showPage('contact');
+            // Scroll to contact
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            
             const messageInput = document.getElementById('messageInput');
             // Check if message is already typed to avoid overwriting
             if(messageInput.value === "") {
@@ -757,14 +730,7 @@
 
         function closeModal() {
             document.getElementById('successModal').classList.add('hidden');
-            // Optional: redirect to home
-            showPage('home');
         }
-
-        // Initialize: Show Home on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            showPage('home');
-        });
 
     </script>
 </body>
